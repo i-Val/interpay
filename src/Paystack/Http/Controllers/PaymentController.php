@@ -62,7 +62,8 @@ class PaymentController extends Controller {
           echo "cURL Error #:" . $err;
         } else {
           return $response;
-          echo $response;
+          $responses = "responsed";
+          echo $responses;
         }
     }
 }
