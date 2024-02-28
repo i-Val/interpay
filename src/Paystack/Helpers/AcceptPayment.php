@@ -7,7 +7,9 @@ class AcceptPayment {
 
         $fields = [
           'email' => $email,
-          'amount' => $amount
+          'amount' => $amount,
+          'callback_url' => "http://localhost:8000/verify",
+          'metadata' => ["cancel_action" => "https://www.google.com"]
         ];
 
         $fields_string = http_build_query($fields);
@@ -29,7 +31,7 @@ class AcceptPayment {
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
 
         //execute post
-        $result = json_decode(curl_exec($ch));
+         $result = json_decode(curl_exec($ch));
 
         if ($result->status) {
 
@@ -42,8 +44,9 @@ class AcceptPayment {
         }else{
           return 'an error occured';
         }
+        return 'no error';
 
-        return $result->data;
+        //return $result->data;
     }
 
     public static function verify($reference){
@@ -58,7 +61,7 @@ class AcceptPayment {
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "GET",
           CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
             "Cache-Control: no-cache",
           ),
         ));
@@ -71,17 +74,15 @@ class AcceptPayment {
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
-          return $response;
-          $responses = "responsed";
-          echo $responses;
+          return response()->json($response, 200);
         }
     }
 
-    public static function refund($transaction, $amount) {
+    public static function refund($transaction_id, $amount) {
         $url = "https://api.paystack.co/refund";
 
         $fields = [
-            'transaction' => $transaction,
+            'transaction' => $transaction_id,
             'amount' => $amount ,
         ];
 
@@ -96,7 +97,7 @@ class AcceptPayment {
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
             "Cache-Control: no-cache",
         ));
 
@@ -106,9 +107,9 @@ class AcceptPayment {
 
 
         //execute post
-        $result = curl_exec($ch);
+        $result = json_decode(curl_exec($ch));
 
-        echo $result;
+        return $result;
     }
     
 }
