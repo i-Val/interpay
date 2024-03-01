@@ -12,6 +12,6 @@ class InterpayServiceProvider extends ServiceProvider {
     }
 
     public function register() {
-        $this->mergeConfigFrom(__DIR__.'../src/InterpayServiceProvider.php', 'config');
+        $this->mergeConfigFrom(__DIR__.'/Paystack/config/config.php', 'config');
     }
 }
