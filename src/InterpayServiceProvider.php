@@ -12,6 +12,7 @@ class InterpayServiceProvider extends ServiceProvider {
     }
 
     public function register() {
+        //merging config file
         $this->mergeConfigFrom(__DIR__.'/Paystack/config/config.php', 'config');
     }
 }
