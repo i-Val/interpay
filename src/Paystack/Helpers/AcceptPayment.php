@@ -2,7 +2,7 @@
 namespace IVal\Interpay\Paystack\Helpers;
 
 class AcceptPayment {
-    public static function initialize($email, $amount) {
+    public static function initialize($email, $amount, $secret_key) {
         $url = "https://api.paystack.co/transaction/initialize";
 
         $fields = [
@@ -23,7 +23,7 @@ class AcceptPayment {
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-          "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
+          "Authorization: Bearer $secret_key",
           "Cache-Control: no-cache",
         ));
 
@@ -49,7 +49,7 @@ class AcceptPayment {
         //return $result->data;
     }
 
-    public static function verify($reference){
+    public static function verify($reference, $secret_key){
         $curl = curl_init();
       
         curl_setopt_array($curl, array(
@@ -61,7 +61,8 @@ class AcceptPayment {
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "GET",
           CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
+            // "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
+            "Authorization: Bearer $secret_key",
             "Cache-Control: no-cache",
           ),
         ));
@@ -78,7 +79,7 @@ class AcceptPayment {
         }
     }
 
-    public static function refund($transaction_id, $amount) {
+    public static function refund($transaction_id, $amount, $secret_key) {
         $url = "https://api.paystack.co/refund";
 
         $fields = [
@@ -97,7 +98,7 @@ class AcceptPayment {
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
+            "Authorization: Bearer $secret_key",
             "Cache-Control: no-cache",
         ));
 

@@ -1,6 +1,7 @@
 {
     "name": "i-val/interpay",
     "description": "Online paymenyt integration for the Laravel framework",
+    "version": "1.0.1",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -14,6 +15,14 @@
     "autoload": {
         "psr-4": {
             "IVal\\Interpay\\":"src/"
+        }
+    },
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IVal\\Interpay\\InterpayServiceProvider"
+            ]
         }
     }
 }
