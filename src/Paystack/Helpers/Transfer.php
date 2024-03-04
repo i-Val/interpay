@@ -1,8 +1,9 @@
 <?php
 namespace IVal\Interpay\Paystack\Helpers;
 
+
 class Transfer {
-    public static function create_recepient($type, $name, $account_number, $bank_code, $currency){
+    public static function create_recepient($type = 'nuban', String $name, $account_number, $bank_code, $currency, $secret_key){
         $url = "https://api.paystack.co/transferrecipient";
       
         $fields = [
@@ -23,7 +24,7 @@ class Transfer {
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-          "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
+          "Authorization: Bearer $secret_key",
           "Cache-Control: no-cache",
         ));
         
@@ -64,7 +65,7 @@ class Transfer {
         }
     }
       
-    public static function initiateTransfer($amount, $reference, $reason = "confidential") {
+    public static function initiateTransfer($amount, $reference, $reason = "confidential", $secret_key) {
         $url = "https://api.paystack.co/transfer";
 
         $fields = [
@@ -87,7 +88,7 @@ class Transfer {
         curl_setopt($ch,CURLOPT_POST, true);      
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);     
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(     
-        "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",   
+        "Authorization: Bearer $secret_key",   
         "Cache-Control: no-cache",    
         ));
     
@@ -101,7 +102,7 @@ class Transfer {
         echo $result;
     }
 
-    public static function initiateBulkTransfer($fields) {
+    public static function initiateBulkTransfer($fields, $secret_key) {
         $url = "https://api.paystack.co/transfer/bulk";
 
         $fields = [
@@ -137,7 +138,7 @@ class Transfer {
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer $secret_key",
             "Cache-Control: no-cache",
         ));
         
