@@ -1,7 +1,7 @@
 {
     "name": "i-val/interpay",
     "description": "Online paymenyt integration for the Laravel framework",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "type": "library",
     "license": "MIT",
     "authors": [
