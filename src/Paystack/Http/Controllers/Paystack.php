@@ -11,7 +11,7 @@ class Paystack  {
     
     public function __construct()
     {
-        $this->secret_key = config('config.paystack_secret_key');
+        $this->secret_key = config('interpay.paystack_secret_key');
     }
 
     public function acceptPayment($email,$amount) {
