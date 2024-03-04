@@ -29,7 +29,7 @@ class Paystack  {
         $type = $data['type'];
         $name = $data['name'];
         $account_number = $data['account_number'];
-        $bank_code = $data['$bank_code'];
+        $bank_code = $data['bank_code'];
         $currency = $data['currency'];
         Transfer::create_recepient($type, $name, $account_number, $bank_code, $currency, $this->secret_key);
     }
