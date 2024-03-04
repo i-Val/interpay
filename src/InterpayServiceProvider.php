@@ -15,7 +15,7 @@ class InterpayServiceProvider extends ServiceProvider {
 
     public function register() {
         //merging config file
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'interpay');
+        $this->mergeConfigFrom(__DIR__.'/../config/interpay.php', 'interpay');
 
     }
 }
