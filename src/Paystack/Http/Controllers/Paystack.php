@@ -31,19 +31,29 @@ class Paystack  {
         $account_number = $data['account_number'];
         $bank_code = $data['bank_code'];
         $currency = $data['currency'];
-        return Transfer::create_recepient($type, $name, $account_number, $bank_code, $currency, $this->secret_key);
+
+        return Transfer::create_recipient($type, $name, $account_number, $bank_code, $currency, $this->secret_key);
     }
 
-    public function initiateTransfer($amount, $reference, $reason = 'payment') {
-        return Transfer::initiateTransfer($amount, $reference, $reason, $this->secret_key);
+    public function initiateTransfer($data) {
+        $amount = $data['amount'];
+        $recipient_code = $data['recipient_code'];
+        $reference = $data['reference'];
+        $reason = $data['reason'];
+
+        return Transfer::initiateTransfer($amount, $recipient_code, $reference, $reason, $this->secret_key);
     }
 
-    public function initiateBulkTransfer($recepients) {        
-        return Transfer::initiateBulkTransfer([$recepients], $this->secret_key);
+    public function initiateBulkTransfer($currency, $source, $recipients) {   
+        //recipients is an array of objects     
+        return Transfer::initiateBulkTransfer($currency, $source, $recipients, $this->secret_key);
     }
 
     public function fetchTransfer($code) {
         return Transfer::fetchTransfer($code, $this->secret_key);
+    }
+    public function listRecipient() {
+        return Transfer::list_recipient($this->secret_key);
     }
 
     public function verifyTransfer($reference) {

@@ -3,7 +3,7 @@ namespace IVal\Interpay\Paystack\Helpers;
 
 
 class Transfer {
-    public static function create_recepient($type = 'nuban', String $name, $account_number, $bank_code, $currency, $secret_key){
+    public static function create_recipient($type = 'nuban', String $name, $account_number, $bank_code, $currency, $secret_key){
         $url = "https://api.paystack.co/transferrecipient";
       
         $fields = [
@@ -36,11 +36,11 @@ class Transfer {
         return response()->json($result);
     }
       
-    public static function list_recepient() {
+    public static function list_recipient($secret_key) {
         $curl = curl_init();
         
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.paystack.co/transferrecipient/71855877",
+            CURLOPT_URL => "https://api.paystack.co/transferrecipient/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -48,7 +48,7 @@ class Transfer {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer sk_test_a1d642a8379db2d7ba99b1756e3174e12f72285c",
+            "Authorization: Bearer $secret_key",
             "Cache-Control: no-cache",
             ),
         ));
@@ -65,15 +65,14 @@ class Transfer {
         }
     }
       
-    public static function initiateTransfer($amount, $reference, $reason = "confidential", $secret_key) {
+    public static function initiateTransfer($amount, $recipient_code, $reference, $reason = "confidential", $secret_key) {
         $url = "https://api.paystack.co/transfer";
 
         $fields = [
         'source' => "balance",     
-        'amount' => $amount,    
-        // "reference" => "RCP_960r0bm3knoah8exxx",      
+        'amount' => $amount,          
         "reference" => $reference,      
-        'recipient' => "RCP_960r0bm3knoah8e",      
+        'recipient' => $recipient_code,      
         'reason' => $reason      
         ];      
     
@@ -102,29 +101,13 @@ class Transfer {
         echo $result;
     }
 
-    public static function initiateBulkTransfer($fields, $secret_key) {
+    public static function initiateBulkTransfer($currency = "NGN", $source = "balance", $recipients, $secret_key) {
         $url = "https://api.paystack.co/transfer/bulk";
 
         $fields = [
-            'currency' => "NGN",
-            'source' => "balance",
-            'transfers' => [[
-            "amount" => 20000,
-            "reference" => "588YtfftReF355894J",
-            "reason" => "Why not?",
-            "recipient" => "RCP_2tn9clt23s7qr28"
-            ],
-            [
-            "amount" => 30000,
-            "reference" => "YunoTReF35e0r4J",
-            "reason" => "Because I can",
-            "recipient" => "RCP_1a25w1h3n0xctjg"
-            ],
-            [
-            "amount" => 40000,
-            "reason" => "Coming right up",
-            "recipient" => "RCP_aps2aibr69caua7"
-            ]]
+            'currency' => $currency,
+            'source' => $source,
+            'transfers' => $recipients
         ];
 
         $fields_string = http_build_query($fields);
@@ -152,7 +135,7 @@ class Transfer {
         echo $result;
     }
       
-    public static function verifyTransfer($reference) {
+    public static function verifyTransfer($reference, $secret_key) {
 
         $curl = curl_init();
 
@@ -165,7 +148,7 @@ class Transfer {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer $secret_key",
             "Cache-Control: no-cache",
             ),
         ));
@@ -181,13 +164,13 @@ class Transfer {
             echo $response;
             }
         }
-    public static function fetchTransfer() {
+    public static function fetchTransfer($code, $secret_key) {
 
         $curl = curl_init();
 
 
         curl_setopt_array($curl, array(     
-        CURLOPT_URL => "https://api.paystack.co/transfer/:id_or_code",    
+        CURLOPT_URL => "https://api.paystack.co/transfer/$code",    
         CURLOPT_RETURNTRANSFER => true,    
         CURLOPT_ENCODING => "",     
         CURLOPT_MAXREDIRS => 10,     
@@ -195,7 +178,7 @@ class Transfer {
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,     
         CURLOPT_CUSTOMREQUEST => "GET",     
         CURLOPT_HTTPHEADER => array(     
-            "Authorization: Bearer SECRET_KEY",     
+            "Authorization: Bearer $secret_key",     
             "Cache-Control: no-cache", 
         ),  
         ));
@@ -215,7 +198,7 @@ class Transfer {
         }
     }
       
-    public static function finalizTransfer($transfer_code, $otp) {
+    public static function finalizTransfer($transfer_code, $otp, $secret_key) {
 
         $url = "https://api.paystack.co/transfer/finalize_transfer";
 
@@ -234,7 +217,7 @@ class Transfer {
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer $secret_key ",
             "Cache-Control: no-cache",
         ));
         
