@@ -36,7 +36,7 @@ class Transfer {
         return response()->json($result);
     }
       
-    public static function list_recipient($secret_key) {
+    public static function list_recipients($secret_key) {
         $curl = curl_init();
         
         curl_setopt_array($curl, array(
@@ -59,9 +59,9 @@ class Transfer {
         curl_close($curl);
         
         if ($err) {
-            echo "cURL Error #:" . $err;
+            return "cURL Error #:" . $err;
         } else {
-            echo $response;
+            return $response;
         }
     }
       
@@ -98,7 +98,7 @@ class Transfer {
     
         //execute post    
         $result = curl_exec($ch);    
-        echo $result;
+        return $result;
     }
 
     public static function initiateBulkTransfer($currency = "NGN", $source = "balance", $recipients, $secret_key) {
@@ -132,7 +132,7 @@ class Transfer {
 
         //execute post
         $result = curl_exec($ch);
-        echo $result;
+        return $result;
     }
       
     public static function verifyTransfer($reference, $secret_key) {
@@ -159,9 +159,9 @@ class Transfer {
         curl_close($curl);
         
         if ($err) {
-            echo "cURL Error #:" . $err;
+            return "cURL Error #:" . $err;
         } else {
-            echo $response;
+            return $response;
             }
         }
     public static function fetchTransfer($code, $secret_key) {
@@ -192,13 +192,13 @@ class Transfer {
     
         
         if ($err) {     
-        echo "cURL Error #:" . $err;     
+        return "cURL Error #:" . $err;     
         } else {     
-        echo $response;
+        return $response;
         }
     }
       
-    public static function finalizTransfer($transfer_code, $otp, $secret_key) {
+    public static function finalizeTransfer($transfer_code, $otp, $secret_key) {
 
         $url = "https://api.paystack.co/transfer/finalize_transfer";
 
@@ -226,7 +226,7 @@ class Transfer {
         
         //execute post
         $result = curl_exec($ch);
-        echo $result;
+        return $result;
 
     }
 }

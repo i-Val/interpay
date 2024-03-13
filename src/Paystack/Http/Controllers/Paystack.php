@@ -4,6 +4,7 @@ namespace IVal\Interpay\Paystack\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use IVal\Interpay\Paystack\Helpers\AcceptPayment;
+use IVal\Interpay\Paystack\Helpers\PaystackWallet;
 use IVal\Interpay\Paystack\Helpers\Transfer;
 
 class Paystack  {
@@ -52,8 +53,8 @@ class Paystack  {
     public function fetchTransfer($code) {
         return Transfer::fetchTransfer($code, $this->secret_key);
     }
-    public function listRecipient() {
-        return Transfer::list_recipient($this->secret_key);
+    public function listRecipients() {
+        return Transfer::list_recipients($this->secret_key);
     }
 
     public function verifyTransfer($reference) {
@@ -61,6 +62,10 @@ class Paystack  {
     }
 
     public function finalizeTransfer($transfer_code, $otp) {
-        return Transfer::finalizTransfer($transfer_code, $otp, $this->secret_key);
+        return Transfer::finalizeTransfer($transfer_code, $otp, $this->secret_key);
+    }
+
+    public function checkBallance() {
+        return PaystackWallet::checkBallance($this->secret_key);
     }
 }
