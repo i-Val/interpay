@@ -44,11 +44,11 @@ class PaystackWallet {
 
         if ($err) {
 
-            echo "cURL Error #:" . $err;
+            return "cURL Error #:" . $err;
 
         } else {
 
-            echo $response;
+            return $response;
 
         }
     }
