@@ -8,11 +8,6 @@ A payment integration package for laravel. It currently has support for Paystack
 
 ## Getting Started
 
-### Dependencies
-
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
-
 ### 1. Installation
 
 
